@@ -1,0 +1,50 @@
+{
+  "companyAnnouncements": [
+    " \u2588\u2588\u2588\u2588\u2588\u2588\u2557 \u2588\u2588\u2588\u2588\u2588\u2588\u2557 \u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557 \u2588\u2588\u2588\u2588\u2588\u2588\u2557 \u2588\u2588\u2588\u2588\u2588\u2588\u2557 \u2588\u2588\u2588\u2588\u2588\u2588\u2557 \u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\n\u2588\u2588\u2554\u2550\u2550\u2550\u2588\u2588\u2557\u2588\u2588\u2554\u2550\u2550\u2588\u2588\u2557\u2588\u2588\u2554\u2550\u2550\u2550\u2550\u255d\u2588\u2588\u2554\u2550\u2550\u2550\u2550\u255d\u2588\u2588\u2554\u2550\u2550\u2550\u2588\u2588\u2557\u2588\u2588\u2554\u2550\u2550\u2588\u2588\u2557\u2588\u2588\u2554\u2550\u2550\u2550\u2550\u255d\n\u2588\u2588\u2551   \u2588\u2588\u2551\u2588\u2588\u2588\u2588\u2588\u2588\u2554\u255d\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2551     \u2588\u2588\u2551   \u2588\u2588\u2551\u2588\u2588\u2551  \u2588\u2588\u2551\u2588\u2588\u2588\u2588\u2588\u2557  \n\u2588\u2588\u2551   \u2588\u2588\u2551\u2588\u2588\u2554\u2550\u2550\u2550\u255d \u255a\u2550\u2550\u2550\u2550\u2588\u2588\u2551\u2588\u2588\u2551     \u2588\u2588\u2551   \u2588\u2588\u2551\u2588\u2588\u2551  \u2588\u2588\u2551\u2588\u2588\u2554\u2550\u2550\u255d  \n\u255a\u2588\u2588\u2588\u2588\u2588\u2588\u2554\u255d\u2588\u2588\u2551     \u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2551\u255a\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u255a\u2588\u2588\u2588\u2588\u2588\u2588\u2554\u255d\u2588\u2588\u2588\u2588\u2588\u2588\u2554\u255d\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\n \u255a\u2550\u2550\u2550\u2550\u2550\u255d \u255a\u2550\u255d     \u255a\u2550\u2550\u2550\u2550\u2550\u2550\u255d \u255a\u2550\u2550\u2550\u2550\u2550\u255d \u255a\u2550\u2550\u2550\u2550\u2550\u255d \u255a\u2550\u2550\u2550\u2550\u2550\u255d \u255a\u2550\u2550\u2550\u2550\u2550\u2550\u255d\n\u25c6 Operations as Code \u00b7 OAC\n\nThis is your business's shared space. Everyone who works in the business can see it.\n\nOne command: /oac\n  Writes what the business runs on, then what it is aiming at, then one process\n  at a time. Typed again later, it does the next thing.\n\nEvery session: /start at the beginning, /done at the end.\n\nOAC on the bottom line means you are in the right place.\nSelf as Code runs first, in your own repo, with /sac."
+  ],
+  "permissions": {
+    "allow": [
+      "Read",
+      "Edit",
+      "Write",
+      "Bash",
+      "Glob",
+      "Grep",
+      "WebSearch"
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "[ -n \"$AIDLC\" ] && exec bun \"$CLAUDE_PROJECT_DIR/.claude/hooks/aidlc-statusline.ts\"; for s in \"$CLAUDE_PROJECT_DIR/scripts/oac-statusline.sh\" \"$CLAUDE_PROJECT_DIR/code/scripts/oac-statusline.sh\" \"$HOME/.claude/statusline-command.sh\"; do [ -f \"$s\" ] && exec bash \"$s\"; done; exit 0"
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -f \"$HOME/.claude/oac-session-brief.py\" ] && exit 0; b=\"$CLAUDE_PROJECT_DIR/scripts/oac-session-brief.py\"; [ -f \"$b\" ] || exit 0; python3 \"$b\""
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "b=\"$CLAUDE_PROJECT_DIR/scripts/oac-session-brief.py\"; [ -f \"$b\" ] || b=\"$CLAUDE_PROJECT_DIR/code/scripts/oac-session-brief.py\"; [ -f \"$b\" ] && python3 \"$b\" --announce --write >/dev/null 2>&1; exit 0"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "b=\"$CLAUDE_PROJECT_DIR/scripts/oac-session-brief.py\"; [ -f \"$b\" ] || b=\"$CLAUDE_PROJECT_DIR/code/scripts/oac-session-brief.py\"; [ -f \"$b\" ] && python3 \"$b\" --announce --write >/dev/null 2>&1; exit 0"
+          }
+        ]
+      }
+    ]
+  }
+}

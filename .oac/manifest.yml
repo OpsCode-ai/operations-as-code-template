@@ -1,0 +1,30 @@
+# OaC manifest for this business plane.
+#
+# Says which version of the OaC File Format this repo speaks and what shape it
+# claims. The standard is specs/oac-file-format.md (canonical copy at
+# https://opscode.ai/spec). Check the repo any time with:
+#   python3 scripts/oac-validate.py .
+
+oac_version: "1.13"
+
+# This is a BUSINESS plane: one repo per business, shared with the people who
+# work in it. Your own identity lives in your self plane, a separate private
+# repo, and reaches this one only by a routing decision you make (ADR-118,
+# ADR-122). Name that self plane here once you have one; it is a pointer, not
+# an access grant.
+plane: business
+parent_operation: first-last-ops
+
+# pack:     shipped as a pack and installed locally
+# systems:  systems/register.md says what the business runs on today
+profiles: [pack, systems]
+
+types: {}
+topics: []
+exempt:
+  - path: .claude/
+    reason: The command install, not authored content.
+  - path: scripts/
+    reason: Tooling, not authored content.
+  - path: specs/
+    reason: The published standard, carried as reference.

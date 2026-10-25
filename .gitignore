@@ -1,0 +1,10 @@
+.DS_Store
+node_modules/
+.env
+.env.*
+*.log
+
+# Local to this machine, never shared
+.claude/user.json
+.claude/settings.local.json
+.claude/checkpoint.json

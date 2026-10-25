@@ -1,0 +1,208 @@
+{
+  "schema_version": 1,
+  "pack": "operations-as-code-pack",
+  "plane": "business",
+  "content_id": "7bbadfffe9a04fc656ff88423c960ef0deea2906b9032d3c595b1318d36e72f0",
+  "upgrade": "python3 scripts/oac-upgrade.py --from <unzipped newer pack> [--apply]",
+  "skip": [],
+  "files": {
+    ".claude/CLAUDE.md": {
+      "sha256": "1e27d3a7acb46c0ebefb570c1882b272afdda5a778de513ab5cd269b44dd8e62"
+    },
+    ".claude/commands/build-log.md": {
+      "sha256": "fb6fdf71d29aa14a2d0cfdaae10c2f329fa8443e9cfe8b93e78269634cec9285"
+    },
+    ".claude/commands/checkpoint.md": {
+      "sha256": "a2ac512de92c92ae787af7780fe6be1f140594a00861c915961476219e1b791d"
+    },
+    ".claude/commands/commit.md": {
+      "sha256": "73f9a2b94e44cac20cc8bebc79be71a3d8d4a4b27e6202ec6e137abb8c5b24fc"
+    },
+    ".claude/commands/context-core.md": {
+      "sha256": "b54fac9c171c5c846a9ab2b7d016844c067f540a5ca60eb10d42a8e81037029e"
+    },
+    ".claude/commands/create-adr.md": {
+      "sha256": "4ce8af121d5bb31ece3eb7b2621fe9dc45b60fd3ce704f00763f8a054666680e"
+    },
+    ".claude/commands/done.md": {
+      "sha256": "46a894b6e311149d2905dc442eb7d3b709201200dfb8f49450ce539f0774d9f4"
+    },
+    ".claude/commands/install.md": {
+      "sha256": "59c8d97d6dedabd64fa6264baf37e9b1e03afbba1fd269f44d528e2606321e50"
+    },
+    ".claude/commands/oac.md": {
+      "sha256": "c01caf615689380092b35297a4247dc4780eb6f4249e15cac95054d640c21693"
+    },
+    ".claude/commands/ops-audit.md": {
+      "sha256": "a3cff3724203a9eea57f8f021b03ad45b6ff6fe024b3ea1bf7b2ed8bb2af274f"
+    },
+    ".claude/commands/process-capture.md": {
+      "sha256": "6f3fa777e07c125eb4ec01b8b2e5da711c4b7d834f2808c8634dbb5c5e402bdd"
+    },
+    ".claude/commands/pull.md": {
+      "sha256": "ca7e63691416f11d4d333655f1703aac527fbba468d31a9dc94214d76589f2b7"
+    },
+    ".claude/commands/push.md": {
+      "sha256": "5130e527894a1549bc53f08b3d293c1d69ca8afab6d9c3f43d8b2fbf62f30bf9"
+    },
+    ".claude/commands/start.md": {
+      "sha256": "a6a03a3c528c635ba432d577c72f06737d7f0cf9466efc608beed52de8668bb6"
+    },
+    ".claude/commands/task-bridge.md": {
+      "sha256": "716e8b3697321c016d65ab3e5e47f51118f41312bc4eacf90c3bc38bc8d0dd08"
+    },
+    ".claude/settings.json": {
+      "sha256": "67d19c9d4194474447f521db7694b64d0651674e1481c6d3832ae663be418f5e"
+    },
+    ".githooks/pre-commit": {
+      "sha256": "8687cabb038e39b1468b7f65240a3203eca249ab430702d2c9e134b4a7b98b3a"
+    },
+    ".gitignore": {
+      "sha256": "55a6cd7d824fb05d4614ddddb38160752b86ddd0f2f38d4790e3a8431d5fd3f0"
+    },
+    ".oac/manifest.yml": {
+      "sha256": "bbc3c166b4fa99e6e9fbee49d34459b053a818f471d43c741df301694de8e439"
+    },
+    "CHANGELOG.md": {
+      "sha256": "4e7e1c5c8d149cf5668a181caab8fcbda38f5ebe9971bcc409f2213051d26f8d"
+    },
+    "CLAUDE.md": {
+      "sha256": "e383e833b095119cae7248593a69835fc96c9f7c6361fbdc0da8172179918e19"
+    },
+    "INSTALL.md": {
+      "sha256": "1df289d61753f2c44a43486a8fab7bb769d4b19560cb0b4fb3e0d276471e6307"
+    },
+    "LICENCE.md": {
+      "sha256": "8782d872ca18536dc9673afa083c22a023f1143b14d63961dc57c42ed94e730b"
+    },
+    "MODES.md": {
+      "sha256": "c552fede91902bd1d2cb656159efb91b6bd1d7363315ebca95969e1e1bea41d7"
+    },
+    "README.md": {
+      "sha256": "bab77081805f6fae9cb18f69beafc344cb8dba747012a813ffc0b6a9df33e851"
+    },
+    "STATUSLINE.md": {
+      "sha256": "d605248adfe59665a7e3a3fef319872a775c26cd78912be122eaeeb16b139163"
+    },
+    "WORKING.md": {
+      "sha256": "9b6f93437877a8d50aff75b2a466c9763cf104d54fe3075c0a432348b3323e0a"
+    },
+    "context-core/README.md": {
+      "sha256": "ae07e3f8f8ca52f5e2d420aa47afa50c63400d9fda44122b3bc57ffc1bd10f28"
+    },
+    "context-core/business/README.md": {
+      "sha256": "33aeec8cbe68d546f65b84aa1209ca00731c65f049c0b50bcc05b98469fd9cd0"
+    },
+    "context-core/competitive-intelligence/README.md": {
+      "sha256": "162d53115aff008ad9c8dbc097c8456834dc0dbf45264ce9b02e2a878b2a3b66"
+    },
+    "context-core/correspondence/README.md": {
+      "sha256": "7baf7f0fc257f3e929698f5e2b6bdf7ef220a1b7ebfe1ac202484b2a2ccc6e74"
+    },
+    "context-core/customer-intelligence/README.md": {
+      "sha256": "e813708e304a9e3655c74e7dc325c563cd4be7cf139ff476ac4cfc5932aba06a"
+    },
+    "context-core/market-intelligence/README.md": {
+      "sha256": "f68127ab33d0230cfc7b4ac59474a6d0d19286e855db6b079c5f1a992b003008"
+    },
+    "context-core/messaging/README.md": {
+      "sha256": "a0f70ef4fabe50bc5be6a23746c584a58f05ac9b5853054e568a9b3c5ac1095c"
+    },
+    "context-core/operations/README.md": {
+      "sha256": "d0ba531c141d7a461b7843db7c74e75d9e9838ff768dee03e0fb868b1a6915ec"
+    },
+    "context-core/organisation/README.md": {
+      "sha256": "8b436f1b4db818b9d4c9a5bb504eb1ffdc5cd4600e294ddea0c54cad4456e6f2"
+    },
+    "context-core/strategic-identity/README.md": {
+      "sha256": "a789c352eca9fbcb7cf31c1d0d0a2b83110eb3a234cc21eaae07174ae0b457eb"
+    },
+    "context-core/value-offers/README.md": {
+      "sha256": "439ef3918b2ca4bc71b89162bd63d478dfd98b10d495ad523e3c31a643d14ee6"
+    },
+    "context-core/voice/README.md": {
+      "sha256": "380cf1bab3810df55ef6fa415fa821500789cc80c7775e33d83cd08854820768"
+    },
+    "decisions/README.md": {
+      "sha256": "0c2c202da12253e358ad0abcc259a667f665b0e489f192b3a27577cb7391c5b5"
+    },
+    "decisions/template.md": {
+      "sha256": "e5ded1b46ea2185e55fb8683120ee5b816e988910b86803f02d2d4e07e34721c"
+    },
+    "inbox/README.md": {
+      "sha256": "fcf3b61d6c69f906ec73abcf1e555553a06d364ddfdfd912b67671b117eaa4ce"
+    },
+    "notable-plans/README.md": {
+      "sha256": "e38a76b5914e220b49680297e708a392b508c171a062aba181b2813fd8ce8394"
+    },
+    "people-register.yml": {
+      "sha256": "b2689716263b7ed14caf9ff7d89603957117da652cb1668d4ead6adbefcc4d91"
+    },
+    "scripts/check-grounding.py": {
+      "sha256": "cd66e76de4be7ea554db782a13208d752ca56ef14adb66ac70628c69d4066627"
+    },
+    "scripts/check-nul-bytes.py": {
+      "sha256": "4bed6e6169a7107a5322362b8ff1830216cbda36b0ba473e3ac02ab13c4a5f03"
+    },
+    "scripts/check-owner-audience.py": {
+      "sha256": "be73e3b47671e02834cfcb01d583820358fdd557cddfd3b577db44819eb799a7"
+    },
+    "scripts/check-proposal-sources.py": {
+      "sha256": "11630f2b8c760ae8c670773336325b22a556cca8b615ed3277d385864a9cf88c"
+    },
+    "scripts/install-oac-branch-guard.py": {
+      "sha256": "56f4c43df76d14247e72cd6250bb9bda4b1dc9a0a877482b214e21ba32c484e5"
+    },
+    "scripts/install-oac-statusline.py": {
+      "sha256": "7e49047b2699f1d371a9e75b012221e96722e5598f35555161f0b967e71a598b"
+    },
+    "scripts/install-shortcuts.sh": {
+      "sha256": "182405b0a28762d3bd2cc6b65c885c89c23bba88ecc47a97f440a73c6ce3d78a"
+    },
+    "scripts/oac-branch-guard.py": {
+      "sha256": "0a6fc8d26c51c99dd241072df850c69a8db1638be244b9d834ecdaa18725acc9"
+    },
+    "scripts/oac-hub.py": {
+      "sha256": "0e5b7f8f70e05e3b0024cf12bb669c9748e13aeb64d8abe3d12650917dc65540"
+    },
+    "scripts/oac-session-brief.py": {
+      "sha256": "84980080a402f607455b14154d2628a96bf5ea2a50d421cfaa5f5b19163e761e"
+    },
+    "scripts/oac-session-health.py": {
+      "sha256": "a67d45a84abf2104ae83ee3b22500b8edd68a11c9e135cf34779338b856f5d7b"
+    },
+    "scripts/oac-statusline.sh": {
+      "sha256": "5b098c2f8caa7e4252ca8e534944b5dd9a142bb81f9684e28c8c457ee936cfa5"
+    },
+    "scripts/oac-upgrade.py": {
+      "sha256": "ac4f651d40fc4b3014f31ad03ba10b3f5cfc139a23cb78ee8f21b956dbb419db"
+    },
+    "scripts/oac-usage-report.py": {
+      "sha256": "46b24741f6c4d4d77bdd68c842bf7adc608cdb3ec138e49b1603fa4bccdca5c7"
+    },
+    "scripts/oac-validate.py": {
+      "sha256": "ea0c1c947d0e7f9c8c93a66a979388e52678e12ebfccec0e363a60f5cb923225"
+    },
+    "scripts/systems-register.py": {
+      "sha256": "c61694eab9d157b68bb6845fb3b272775eec75745b708649f2e471814721c595"
+    },
+    "specs/oac-file-format.md": {
+      "sha256": "94def42e7a0b7aa928bffe24a0c4c5ea4de8cad7cc288ba3ac3efd20787c5caa"
+    },
+    "specs/oac-vocabulary.yml": {
+      "sha256": "f3e8395f045684603720629cdfd1da2790bf52772ab82d265c0f6fb1531ea165"
+    },
+    "standards/grounding-standard.md": {
+      "sha256": "b49b91e9a4ed02a88d28727cb7945b0d1e6960868794a84d0046ef3106a68d44"
+    },
+    "standards/transcript-to-proposal-standard.md": {
+      "sha256": "1ba4c1af008ce480b1f9544f9527ac769e9051647e675dd9fecf23fe9dce96de"
+    },
+    "systems/register.md": {
+      "sha256": "e5d2f3d633d70e44c6832b505d4a99293d97bacf630c5c7045477854bac0f874"
+    },
+    "team/README.md": {
+      "sha256": "13772db3d116e7f8e732aeaeb27b32747fef6fdf6af0daf49ef33be71987c0bf"
+    }
+  }
+}
