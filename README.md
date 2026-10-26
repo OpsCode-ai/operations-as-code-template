@@ -23,6 +23,12 @@ where an agent can read it and a person can check it.
 - `MODES.md`: SAC, OAC and AIDLC, and which commands belong to each
 - `scripts/oac-upgrade.py`: take a newer pack without losing what you wrote. `WORKING.md` says how
 - `.claude/`: the commands
+- `LICENCE.md`: what is OpsCode's (the method, CC BY 4.0; the scripts, MIT) and
+  what is yours (everything you write)
+
+Made from OpsCode's Operations as Code template,
+`https://github.com/OpsCode-ai/operations-as-code-template`. New here?
+`INSTALL.md` is the way in.
 
 Start with `/install`, then `/oac`. Every session after that: `/start`
 first, `/done` last.

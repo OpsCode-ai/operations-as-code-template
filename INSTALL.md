@@ -16,12 +16,12 @@ already seeded, so skip to step 4.
 
 ## Steps
 
-1. On GitHub, open `https://github.com/OpsCode-ai/operations-as-code-pack` and press **Use this template**,
+1. On GitHub, open `https://github.com/OpsCode-ai/operations-as-code-template` and press **Use this template**,
    then **Create a new repository**. Name it after the business, ending in
    `-ops` (`acme-ops`), and choose **Private**. Or, in a terminal with GitHub's
    tool signed in:
    ```bash
-   gh repo create acme-ops --template OpsCode-ai/operations-as-code-pack --private --clone
+   gh repo create acme-ops --template OpsCode-ai/operations-as-code-template --private --clone
    ```
 2. Get it onto your computer if the line above did not: the green **Code**
    button on your new repository's page, then **Open with GitHub Desktop**, or
