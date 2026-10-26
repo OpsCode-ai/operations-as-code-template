@@ -2,7 +2,7 @@
   "schema_version": 1,
   "pack": "operations-as-code-pack",
   "plane": "business",
-  "content_id": "008ad95c21724a8f8a9e950183417896b1c26213b65651e494e187b298af6e95",
+  "content_id": "93af9576b1145d39b04c0e2e905ead0274cacb195e56ed5ea18ab39f925323b7",
   "upgrade": "python3 scripts/oac-upgrade.py --from <unzipped newer pack> [--apply]",
   "skip": [],
   "files": {
@@ -13,7 +13,7 @@
       "sha256": "fb6fdf71d29aa14a2d0cfdaae10c2f329fa8443e9cfe8b93e78269634cec9285"
     },
     ".claude/commands/checkpoint.md": {
-      "sha256": "a2ac512de92c92ae787af7780fe6be1f140594a00861c915961476219e1b791d"
+      "sha256": "de8f1de8ea1e10f32255e56b78c53805d96b0d3805e4aba70fa13c9fcf2c442d"
     },
     ".claude/commands/commit.md": {
       "sha256": "73f9a2b94e44cac20cc8bebc79be71a3d8d4a4b27e6202ec6e137abb8c5b24fc"
@@ -25,7 +25,7 @@
       "sha256": "4ce8af121d5bb31ece3eb7b2621fe9dc45b60fd3ce704f00763f8a054666680e"
     },
     ".claude/commands/done.md": {
-      "sha256": "46a894b6e311149d2905dc442eb7d3b709201200dfb8f49450ce539f0774d9f4"
+      "sha256": "bc24105fd918245cf09a5461cf63df887cb6c7621a9830db20ae5ffcf8997d8c"
     },
     ".claude/commands/install.md": {
       "sha256": "59c8d97d6dedabd64fa6264baf37e9b1e03afbba1fd269f44d528e2606321e50"
@@ -46,10 +46,10 @@
       "sha256": "5130e527894a1549bc53f08b3d293c1d69ca8afab6d9c3f43d8b2fbf62f30bf9"
     },
     ".claude/commands/start.md": {
-      "sha256": "a6a03a3c528c635ba432d577c72f06737d7f0cf9466efc608beed52de8668bb6"
+      "sha256": "5822373df09de033470e989fd235338e98b51f6b82a4f8fa747cb4712bf0f70b"
     },
     ".claude/commands/task-bridge.md": {
-      "sha256": "716e8b3697321c016d65ab3e5e47f51118f41312bc4eacf90c3bc38bc8d0dd08"
+      "sha256": "6612ad99ea657ca0d0910e900103d6c6430dded85871af03e1d8dd109d46d9ce"
     },
     ".claude/settings.json": {
       "sha256": "67d19c9d4194474447f521db7694b64d0651674e1481c6d3832ae663be418f5e"
@@ -85,7 +85,7 @@
       "sha256": "d605248adfe59665a7e3a3fef319872a775c26cd78912be122eaeeb16b139163"
     },
     "WORKING.md": {
-      "sha256": "236cb3b71e152168b3f1a5db9e7449d799d8665983bbd605fad34401ebd0b2e7"
+      "sha256": "734225856804b5d8b374978d3a75148a0f5d6c0881b4d73e541c52d9177980f5"
     },
     "context-core/README.md": {
       "sha256": "ae07e3f8f8ca52f5e2d420aa47afa50c63400d9fda44122b3bc57ffc1bd10f28"
@@ -166,7 +166,7 @@
       "sha256": "0e5b7f8f70e05e3b0024cf12bb669c9748e13aeb64d8abe3d12650917dc65540"
     },
     "scripts/oac-session-brief.py": {
-      "sha256": "84980080a402f607455b14154d2628a96bf5ea2a50d421cfaa5f5b19163e761e"
+      "sha256": "e0a837d695c508267368795735c12a37ab138c0ec5eae8d1e52588145b2b3ebe"
     },
     "scripts/oac-session-health.py": {
       "sha256": "a67d45a84abf2104ae83ee3b22500b8edd68a11c9e135cf34779338b856f5d7b"
