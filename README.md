@@ -54,8 +54,9 @@ Typed again later, it does the next thing, not the first one again.
 **The loop.** `/start` reads where you left off, `/done` commits by path,
 pushes, and writes your continuity note. Nothing lands without both.
 
-**When the pack moves.** Download the new zip, unzip it beside this repo, and
-run `python3 scripts/oac-upgrade.py --from <that folder> --apply`. It adds
+**When the template moves.** Clone the current template beside this repo
+(`git clone --depth 1 https://github.com/OpsCode-ai/operations-as-code-template`)
+and run `python3 scripts/oac-upgrade.py --from <that folder> --apply`. It adds
 what is new and never writes what you wrote. `WORKING.md` has the detail.
 
 **When you want to build software.** OpsCode's build tools (AI-DLC by AWS

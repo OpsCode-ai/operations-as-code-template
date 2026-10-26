@@ -2,7 +2,7 @@
   "schema_version": 1,
   "pack": "operations-as-code-pack",
   "plane": "business",
-  "content_id": "098e8b570227970ff47828dfaddd8d6b87584c111022102179e7f079d638c119",
+  "content_id": "008ad95c21724a8f8a9e950183417896b1c26213b65651e494e187b298af6e95",
   "upgrade": "python3 scripts/oac-upgrade.py --from <unzipped newer pack> [--apply]",
   "skip": [],
   "files": {
@@ -79,13 +79,13 @@
       "sha256": "c552fede91902bd1d2cb656159efb91b6bd1d7363315ebca95969e1e1bea41d7"
     },
     "README.md": {
-      "sha256": "7b3b4e0e99b8d595aaae116eaec4cdae02456ca798122fa4dc379a12e7575fbb"
+      "sha256": "a55b2b1c777cd959bc4627ef24073f0781592be79e8e67ef942a3a2a1bfb4624"
     },
     "STATUSLINE.md": {
       "sha256": "d605248adfe59665a7e3a3fef319872a775c26cd78912be122eaeeb16b139163"
     },
     "WORKING.md": {
-      "sha256": "9b6f93437877a8d50aff75b2a466c9763cf104d54fe3075c0a432348b3323e0a"
+      "sha256": "236cb3b71e152168b3f1a5db9e7449d799d8665983bbd605fad34401ebd0b2e7"
     },
     "context-core/README.md": {
       "sha256": "ae07e3f8f8ca52f5e2d420aa47afa50c63400d9fda44122b3bc57ffc1bd10f28"
