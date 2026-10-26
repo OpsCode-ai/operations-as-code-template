@@ -14,13 +14,13 @@ where an agent can read it and a person can check it.
 - `context-core/`: what the business is aiming at. Each folder has a README
   that says what goes in it
 - `decisions/`: choices already made
-- `team/`: one folder per person, the continuity logs `/start` and `/done` keep
+- `team/`: one folder per person, the daily notes `/start` and `/done` keep
 - `inbox/`: one folder per person for the files that came off each laptop.
   Copies, never originals; sort from here as you go
 - `INSTALL.md`: how this folder became a repo, and the prompt that did it
-- `STATUSLINE.md`: the Claude Code statusline every operator runs
-- `WORKING.md`: sessions, continuity, checkpoints, worktrees
-- `MODES.md`: SAC, OAC and AIDLC, and which commands belong to each
+- `STATUSLINE.md`: the bottom line of the screen, the same for everyone
+- `WORKING.md`: sessions, notes, checkpoints, working side by side
+- `MODES.md`: your private space and a business, and which commands belong to each
 - `scripts/oac-upgrade.py`: take a newer pack without losing what you wrote. `WORKING.md` says how
 - `.claude/`: the commands
 - `LICENCE.md`: what is OpsCode's (the method, CC BY 4.0; the scripts, MIT) and
@@ -42,8 +42,8 @@ session, where you left off, the manual count, what is open. It is written
 into `.claude/settings.json` by `scripts/oac-session-brief.py --announce
 --write` at the end of every session, so the next open is current. The
 bottom line of the screen says `OAC`, read from `.oac/manifest.yml`. If it
-says `SAC` you are in a self plane; if it says nothing you are outside an
-OpsCode repo.
+says `SAC` you are in your own private space; if it says nothing you are
+outside an OpsCode repo.
 
 **One door.** `/oac` is the only command you need for the method. It runs the
 install order as a conversation, then writes what the business runs on, then
@@ -52,7 +52,7 @@ and written on your yes. You never choose a path, and you never run a script.
 Typed again later, it does the next thing, not the first one again.
 
 **The loop.** `/start` reads where you left off, `/done` commits by path,
-pushes, and writes your continuity note. Nothing lands without both.
+pushes, and writes your note for next time. Nothing lands without both.
 
 **When the template moves.** Clone the current template beside this repo
 (`git clone --depth 1 https://github.com/OpsCode-ai/operations-as-code-template`)
