@@ -29,11 +29,11 @@ already seeded, so skip to step 4.
 3. Open Claude Code in that folder and paste the installer prompt below.
 4. When it says it is done, restart Claude Code, run `/install`, then `/oac`.
 
-**Done looks like:** the folder has a git history, its copy on GitHub is
-private, the bottom line of Claude Code says `OAC`, typing `oac` in a new
-Terminal window opens this folder with Claude Code running, `/install` has
+**Done looks like:** the folder has a git history. Its copy on GitHub is
+private. The bottom line of Claude Code says `OAC`. Typing `oac` in a new
+Terminal window opens this folder with Claude Code running. `/install` has
 shown you a fill-map, and `/oac` has written `systems/register.md` with a
-manual-process count you can say out loud.
+count of what still runs by hand, one you can say out loud.
 
 ---
 
@@ -72,11 +72,11 @@ me what you did after each one.
    conformance level and the top three things it flags. Do not fix them yet.
 8. **Read `CLAUDE.md`** and give me a three-line summary of what this repo is
    for and what its two halves are.
-9. **Tell me you are done**, and what happens next, in order: Claude Code may
-   ask me to approve this project's settings, and I should approve them; then
-   I fully restart Claude Code; then I run `/install`, then `/oac`. To invite
-   the other person in my business, `python3 scripts/oac-hub.py invite <their
-   GitHub user>`; they join with `python3 scripts/oac-hub.py join <owner>/<repo>`.
+9. **Tell me you are done**, and what happens next, in order. Claude Code may
+   ask me to approve this project's settings; I should approve them. Then I
+   fully restart Claude Code. Then I run `/install`, then `/oac`. To invite
+   the other person in my business: `python3 scripts/oac-hub.py invite <their
+   GitHub user>`. They join with `python3 scripts/oac-hub.py join <owner>/<repo>`.
    To get back here any day, I open a new Terminal window and type `oac`.
    Every session after that starts with `/start` and ends with `/done`.
 

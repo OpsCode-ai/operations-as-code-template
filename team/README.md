@@ -6,20 +6,19 @@ audience: team
 
 # Team
 
-One folder per person who works in this business, named by handle (first
-name, lowercase). Inside it: `current.md`, today's continuity log, and
-`logs/`, the archived days.
+One folder per person who works here, named by first name in lowercase.
+Inside it: `current.md`, today's log, and `logs/`, the days before.
 
 | Command | When | Time |
 |---|---|---|
-| `/start` | Beginning of a session. Reads your log first | 30 seconds |
-| `/done` | End of a session. Validates, commits, pushes, writes your log | 1 minute |
+| `/start` | The start of a session. Reads your log first | 30 seconds |
+| `/done` | The end of a session. Checks the files, saves, sends to GitHub, writes your log | 1 minute |
 | `/task-bridge` | Any time you step away mid-thought | 20 seconds |
 
-The loop is the point: `/done` writes the log, `/start` reads it, and any
-session on any machine picks the thread straight up. The file shape is in
+The point is simple. `/done` writes the log and `/start` reads it, so the next
+session, on any machine, picks up where you left off. The file's shape is in
 `.claude/commands/task-bridge.md`.
 
-In a business plane, everything in here is readable by everyone who works in
-the business, so personal notes belong in your self plane. In a self plane it
-is a team of one, and the log is yours alone.
+In a business, everyone who works here can read this folder, so personal
+notes belong in your own private space. In a private space it is a team of
+one, and the log is yours alone.
