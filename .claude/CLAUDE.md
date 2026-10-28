@@ -18,6 +18,12 @@ October 2026: no AI-DLC in the install).
   `context-core/strategic-identity/from-self-as-code.md` exists, read it first:
   it holds the lines the owner chose to share. Never ask again what it already
   says.
+- **Each goal the owner sent here has a status, and this business keeps it.**
+  `context-core/strategic-identity/goals.md` holds one row per goal. At
+  `/done`, once a goal's last word is a week old, `python3 scripts/oac-goals.py
+  due` lists it and the session asks for one word: not started, on track, at
+  risk, done or dropped. Only the status and the date ever change here; the
+  owner's plan reads those two back and nothing else.
 - **The one word.** `bash scripts/install-shortcuts.sh` installs `oac`: typed
   in a new Terminal window, it opens this folder with Claude Code running, and
   `oacr` picks up the last conversation. If they ask how to get back here,

@@ -2,18 +2,18 @@
   "schema_version": 1,
   "pack": "operations-as-code-pack",
   "plane": "business",
-  "content_id": "e5018864d4b32ad69e20c23e4d98a719e817c5a0a89f7c6375575a8222c1c22d",
+  "content_id": "36f3ac88140de5b7eda29ae9b746955ac4d60b73bfacf6b6cd1a0020d8047bf0",
   "upgrade": "python3 scripts/oac-upgrade.py --from <unzipped newer pack> [--apply]",
   "skip": [],
   "files": {
     ".claude/CLAUDE.md": {
-      "sha256": "1e27d3a7acb46c0ebefb570c1882b272afdda5a778de513ab5cd269b44dd8e62"
+      "sha256": "1ece0f903026db087b7b6cc198d7b055aa24a063a9a30972a1968f40f8a61959"
     },
     ".claude/commands/build-log.md": {
       "sha256": "ce3b9499a830135372125cb791c7ef990446511c3a00ee7de905ef1039b87bbf"
     },
     ".claude/commands/checkpoint.md": {
-      "sha256": "290f05faf88b6ef45e999faa1e04d523fb1be9ac455130a3b6361357c47f9a67"
+      "sha256": "f76cc42ec98161894f55230edd21f535b1f7840ba99be70e77645bb002cecb5d"
     },
     ".claude/commands/commit.md": {
       "sha256": "73f9a2b94e44cac20cc8bebc79be71a3d8d4a4b27e6202ec6e137abb8c5b24fc"
@@ -25,7 +25,7 @@
       "sha256": "4ce8af121d5bb31ece3eb7b2621fe9dc45b60fd3ce704f00763f8a054666680e"
     },
     ".claude/commands/done.md": {
-      "sha256": "478c00cbbde771f85fabf2edb38df2977a14056eeed96d848057f635132da32d"
+      "sha256": "55ce45c7df33f2e2b3f7871e20f82a80f046f2d0141586d6d12d9651eb848d5b"
     },
     ".claude/commands/install.md": {
       "sha256": "59c8d97d6dedabd64fa6264baf37e9b1e03afbba1fd269f44d528e2606321e50"
@@ -162,11 +162,14 @@
     "scripts/oac-branch-guard.py": {
       "sha256": "0a6fc8d26c51c99dd241072df850c69a8db1638be244b9d834ecdaa18725acc9"
     },
+    "scripts/oac-goals.py": {
+      "sha256": "bb659291a472db50c261a16b50bbc2fe054be9533a784924f5d2a4dfdabcbc99"
+    },
     "scripts/oac-hub.py": {
       "sha256": "0e5b7f8f70e05e3b0024cf12bb669c9748e13aeb64d8abe3d12650917dc65540"
     },
     "scripts/oac-session-brief.py": {
-      "sha256": "e3eed3182bcd652a352a711d009f61632691aa9decab47d8f5bff3c7f77d87ef"
+      "sha256": "3426d7ce5e39139f4609aa07412948c1adaef26143145f2fe507fb92b3a39106"
     },
     "scripts/oac-session-health.py": {
       "sha256": "a67d45a84abf2104ae83ee3b22500b8edd68a11c9e135cf34779338b856f5d7b"
