@@ -2,7 +2,7 @@
   "schema_version": 1,
   "pack": "operations-as-code-pack",
   "plane": "business",
-  "content_id": "a0afb67c6adba739315a22e506e4cec98642154b0f1a9eb7b5d5c06f9fd3964a",
+  "content_id": "a8814a32dfc3a173a7c6cea44e2d0251fd16b1279fbcddfaa904c7a5f366d380",
   "upgrade": "python3 scripts/oac-upgrade.py --from <unzipped newer pack> [--apply]",
   "skip": [],
   "files": {
@@ -58,7 +58,7 @@
       "sha256": "8687cabb038e39b1468b7f65240a3203eca249ab430702d2c9e134b4a7b98b3a"
     },
     ".gitignore": {
-      "sha256": "55a6cd7d824fb05d4614ddddb38160752b86ddd0f2f38d4790e3a8431d5fd3f0"
+      "sha256": "5d2ce33ea94b01c7c1ec1c0d9d6a262d2c9944ae027bfca3ceaf1af7b5434144"
     },
     ".oac/manifest.yml": {
       "sha256": "bbc3c166b4fa99e6e9fbee49d34459b053a818f471d43c741df301694de8e439"
@@ -160,7 +160,7 @@
       "sha256": "182405b0a28762d3bd2cc6b65c885c89c23bba88ecc47a97f440a73c6ce3d78a"
     },
     "scripts/lib/brand.py": {
-      "sha256": "fb713cac3a5edfe5c68c2ab60114082e929f89f5c2f473537aa7f8dd8417d4e7"
+      "sha256": "aec259f78c6fea13bd101db57afba41f53d9527beb7b01583805617b6ee46348"
     },
     "scripts/lib/library/LICENSE-carbon.txt": {
       "sha256": "037b3e9eaff51477b270e9082f54b99175e4dd893548654f00995045b68294b8"
@@ -913,7 +913,7 @@
       "sha256": "ea0c1c947d0e7f9c8c93a66a979388e52678e12ebfccec0e363a60f5cb923225"
     },
     "scripts/oac-vision.py": {
-      "sha256": "7f47a07f23f34cee043885371fe1abe4df6679a726c26312da5bba70ecde84fe"
+      "sha256": "0f4860ad3faaa612396885595c18accd1d9ebd978583d10c5ed799e2556e539d"
     },
     "scripts/systems-register.py": {
       "sha256": "c61694eab9d157b68bb6845fb3b272775eec75745b708649f2e471814721c595"
@@ -925,7 +925,7 @@
       "sha256": "6e4f75dce7bbd9d46cc632e42457f6140999d4d0c9d1ecf1090d1bbbd5e19feb"
     },
     "standards/brand.md": {
-      "sha256": "b640585539b6a24f36cc0e12ad10cabaef3a8b44764445ccb963336d2d020c8f"
+      "sha256": "06576584935976348bd1bfd6ac81283b659011ffea8a811ca44fa47d0f1d28b6"
     },
     "standards/grounding-standard.md": {
       "sha256": "b49b91e9a4ed02a88d28727cb7945b0d1e6960868794a84d0046ef3106a68d44"

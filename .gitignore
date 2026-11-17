@@ -8,3 +8,8 @@ node_modules/
 .claude/user.json
 .claude/settings.local.json
 .claude/checkpoint.json
+
+# Drawn from this repo, rebuilt any time: the dashboard, the three looks and the pick
+.oac/dashboard.html
+.oac/looks.html
+.oac/looks.json

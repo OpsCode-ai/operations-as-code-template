@@ -14,7 +14,8 @@ is written here (`python3 scripts/oac-vision.py pick N`). Until then,
 anything made here is plain black on white.
 
 If the business has a brand already, put its colours and typeface here and
-skip the three looks.
+skip the three looks. If the owner set this business up with `/sac deploy` and
+chose to start from their own look, this file already carries it.
 
 One line each. Every output reads the words before each colon. Keep them as
 they are.
