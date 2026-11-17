@@ -48,6 +48,11 @@ that is the point of it, and the reason your identity stays in the other one.
 4. **Bare values in the register's closed columns.** `| manual |`, never
    `| **manual** |`. A grep counts them, and emphasis makes a row invisible.
 5. **AU English, plain language, no em dashes, no AI clichés.**
+6. **Everything made for the business reads `vision.md` first**: the list
+   of what this repo makes, its look in `standards/brand.md`, its voice in
+   `context-core/voice/`, and the page for its kind in `standards/outputs/`.
+   The look is picked once from three samples; a page's colours are checked
+   against it before it is shown.
 
 ## The commands
 

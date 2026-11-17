@@ -24,6 +24,15 @@ October 2026: no AI-DLC in the install).
   due` lists it and the session asks for one word: not started, on track, at
   risk, done or dropped. Only the status and the date ever change here; the
   owner's plan reads those two back and nothing else.
+- **Everything made for the business reads `vision.md` first.** Before any
+  report, dashboard, page or email, read `vision.md`, `standards/brand.md`,
+  `context-core/voice/` and the page for its kind under `standards/outputs/`,
+  and follow them. If `standards/brand.md` is still the seed, settle the look
+  once: three quiet looks drawn from the Context Core
+  (`python3 scripts/oac-vision.py looks`), the one they pick written with
+  `pick N`. Before a page is shown, `python3 scripts/oac-vision.py check
+  <page>`: a colour that is not the business's is fixed, not explained.
+  Nothing made here looks off the shelf; it is made for this business.
 - **The one word.** `bash scripts/install-shortcuts.sh` installs `oac`: typed
   in a new Terminal window, it opens this folder with Claude Code running, and
   `oacr` picks up the last conversation. If they ask how to get back here,
