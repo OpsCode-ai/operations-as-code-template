@@ -2,7 +2,7 @@
   "schema_version": 1,
   "pack": "operations-as-code-pack",
   "plane": "business",
-  "content_id": "0f0b6a865ca93ece4bd3f4cd974c6bfbc2fb4d5a34edb44fcb3fcb37be7e87f5",
+  "content_id": "fde3c392e6b8661239ddbaf7c09e239e3dd3e1c70522a5ab07ad1c3a05a63c58",
   "upgrade": "python3 scripts/oac-upgrade.py --from <unzipped newer pack> [--apply]",
   "skip": [],
   "files": {
@@ -25,7 +25,7 @@
       "sha256": "4ce8af121d5bb31ece3eb7b2621fe9dc45b60fd3ce704f00763f8a054666680e"
     },
     ".claude/commands/done.md": {
-      "sha256": "6b7aee18b5a92d609ebf1910d5b70aa84c75e68c90e3a46884ec7e241a819a64"
+      "sha256": "54a2e5c2e73bfebd1533e4c59e4d937224357bd03748e4f1157272bb9abfe900"
     },
     ".claude/commands/install.md": {
       "sha256": "59c8d97d6dedabd64fa6264baf37e9b1e03afbba1fd269f44d528e2606321e50"
@@ -46,7 +46,7 @@
       "sha256": "5130e527894a1549bc53f08b3d293c1d69ca8afab6d9c3f43d8b2fbf62f30bf9"
     },
     ".claude/commands/start.md": {
-      "sha256": "0014c831df5ee45849781bdd6b888ff9e140601bb7523556970b747871995d67"
+      "sha256": "7b7d291527f63db6743c5d0b56d2ea059ef252f93efe0e984d97159ea355304a"
     },
     ".claude/commands/task-bridge.md": {
       "sha256": "2c4d2e7411954731345b42dbb205c6204a8da505cd514ef0ddc9e90b18a04db4"
@@ -85,10 +85,10 @@
       "sha256": "00826c3ff432b73836747b1f56b9cdecc2efe4e52566f0a5b85c355ec61b1404"
     },
     "STATUSLINE.md": {
-      "sha256": "d605248adfe59665a7e3a3fef319872a775c26cd78912be122eaeeb16b139163"
+      "sha256": "a3ac8169243f191acdac74b9a3d691288553f5ec2d74e465ffaa433887fa1954"
     },
     "WORKING.md": {
-      "sha256": "30f28697dca5e13041bfaa9600325c0645da06a742c1676455403e7d21f9f12a"
+      "sha256": "b037e9cbf1ed0cf6ff03515f95c4faf9e95c6689863672f39c0d550e1820a9eb"
     },
     "context-core/README.md": {
       "sha256": "ae07e3f8f8ca52f5e2d420aa47afa50c63400d9fda44122b3bc57ffc1bd10f28"
@@ -889,7 +889,7 @@
       "sha256": "4e3aca1c73c754f3cf98e41ce4f9be347689285402b58a2010e789d84f729cbf"
     },
     "scripts/oac-branch-guard.py": {
-      "sha256": "0a6fc8d26c51c99dd241072df850c69a8db1638be244b9d834ecdaa18725acc9"
+      "sha256": "83ee10ffd2277ed733847948eab35d76d6a821512ad347ff575dbd744e386b40"
     },
     "scripts/oac-goals.py": {
       "sha256": "bb659291a472db50c261a16b50bbc2fe054be9533a784924f5d2a4dfdabcbc99"
@@ -920,6 +920,9 @@
     },
     "scripts/oac-vision.py": {
       "sha256": "0f4860ad3faaa612396885595c18accd1d9ebd978583d10c5ed799e2556e539d"
+    },
+    "scripts/oac-worktree.py": {
+      "sha256": "30fd30479caf168c53f71f9a2c4a2310907f3e1316b77601230662b420a40996"
     },
     "scripts/sac-brain.py": {
       "sha256": "36265931ea5f7122c096d48446912703bf0b203db10bb3164efa29f9c6385f75"
