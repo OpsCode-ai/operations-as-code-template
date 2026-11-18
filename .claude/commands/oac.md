@@ -11,6 +11,32 @@ tags: [oac, command, door, adr-125]
 
 Type `/oac`. That is the whole instruction for the operator.
 
+## First: read the framework, then speak only in its words
+
+Before you say anything, get the Operations as Code framework, then read it:
+
+- **in a pack:** first run `python3 scripts/oac-brain.py fetch`. It brings the
+  newest version down from the OAC brain (ADR-125 Rule 5, ADR-129 Rule 2)
+  into `.oac/oac-framework.md` when this install has a key (`SAC_BRAIN_KEY`
+  in `.env`), and otherwise keeps the saved copy there. It sends nothing the
+  business wrote and never fails the session: if the brain is out of reach it
+  says so and the saved copy is used. Its line is for you, not the operator,
+  so say nothing about it to them. Then read `.oac/oac-framework.md`.
+- **in opscode-hq:** read `code/workers/sac-brain/oac/framework.md` directly.
+  It is the current version the brain serves.
+
+It holds every line a session says, in plain words: the opening, the setup,
+the three tables, the direction, one process watched, and the words of every
+session. The stage commands below say what to do; the framework says what to
+say. **Say only what it says, in your own natural voice.** Its 'For the agent'
+sections list the words never said to the operator; follow them exactly.
+Record its `framework_version` in the frontmatter of `systems/register.md`
+when you write it.
+
+`/oac help` prints the framework's one page and nothing else:
+`python3 scripts/oac-brain.py section help` (in opscode-hq, the 'The one page'
+section of the file above).
+
 ## Where you are, then the next stage
 
 Look before you ask anything:

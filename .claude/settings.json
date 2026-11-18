@@ -46,5 +46,8 @@
         ]
       }
     ]
-  }
+  },
+  "enabledMcpjsonServers": [
+    "oac-brain"
+  ]
 }

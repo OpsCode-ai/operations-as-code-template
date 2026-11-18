@@ -18,6 +18,18 @@ October 2026: no AI-DLC in the install).
   `context-core/strategic-identity/from-self-as-code.md` exists, read it first:
   it holds the lines the owner chose to share. Never ask again what it already
   says.
+- **The words stay current.** What `/oac` says comes from the Operations as
+  Code framework in `.oac/oac-framework.md`, by version. Before it says
+  anything, `/oac` runs `python3 scripts/oac-brain.py fetch`, which brings
+  the newest version down from OpsCode when `SAC_BRAIN_KEY` is set in `.env`
+  (never committed) and keeps the saved copy otherwise. What `/start` says,
+  what `/done` asks and the page `/oac help` prints come from the same file:
+  `python3 scripts/oac-brain.py section start` (or `done`, `help`). It sends
+  nothing the business wrote: `next --show` prints exactly what `next` would
+  send, the register's table names and whole numbers. When this repo is
+  connected to the brain (`oac-brain` in `.mcp.json`), its tools are here too:
+  `whats_new`, `next_step`, `get_section`, and the element library by
+  version (`library_file`).
 - **Each goal the owner sent here has a status, and this business keeps it.**
   `context-core/strategic-identity/goals.md` holds one row per goal. At
   `/done`, once a goal's last word is a week old, `python3 scripts/oac-goals.py
