@@ -26,10 +26,23 @@ an AI doing a job ('we need a marketing department', 'Jo starts in accounts
 on Monday', 'can an AI do our social posts?'), offer this in one line: what it
 would make, and 'want me to set it up?'
 
-## Only in the brain
+## Who decides
 
-Spokes are made in the brain, by an owner. If `.oac/manifest.yml` says
-`spoke:`, say 'Spokes are made in the brain. Ask an owner.' and stop.
+Spokes are made in the brain, and only the owners and the admins they choose
+are in the brain. So only they make spokes. Nobody else has to approve it, and
+no pull request is needed: what protects the business is what never leaves
+the brain.
+
+## In a spoke: ask for one
+
+If `.oac/manifest.yml` says `spoke:`, this is a spoke, and spokes are made in
+the brain. Don't make one. Write the request instead, so the owners see it:
+
+1. Ask what they need and why, in a sentence or two, and who would be in it.
+2. Write it to `team/<their first name>/requests/<YYYY-MM-DD>-<short name>.md`,
+   with frontmatter (`title`, `type: note`, `audience: team`).
+3. Say: 'Saved. Type /done. The owners see it the next time they open the
+   brain.'
 
 ## Picking up
 

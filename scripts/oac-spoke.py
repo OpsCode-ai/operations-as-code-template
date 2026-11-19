@@ -76,10 +76,22 @@ VERBS
                         the team has changes the brain has not taken yet.
                         Commits on this laptop; --push sends it to GitHub.
     pull-back <team>    The team's changes and new files come into this
-                        folder of the brain, for an owner to read and save
-                        with /done. Never overwrites a file the brain also
-                        changed: that is reported, and left for a person.
+                        folder of the brain. Never overwrites a file the brain
+                        also changed: that is reported, and left for a person.
+    sync                Every spoke, both ways, with nobody approving
+                        anything: each spoke's work comes into the brain's
+                        main and is saved, then the brain's latest goes out
+                        to every spoke. The pack's /start runs it in the
+                        brain. The gate still decides what leaves.
     list                Every spoke, who is in it, where it lives.
+
+WHO DECIDES (ADR-140 rules 21 and 22)
+    Spokes are made from the brain, and only the owners and the admins they
+    choose are in the brain, so only they make spokes. The business's GitHub
+    organisation decides who can create a repo at all. Staff ask: `/spoke` in
+    a spoke writes a request into their own folder, and it reaches the owners
+    with the next sync. Work flows freely both ways with no pull requests and
+    no approvals: what protects the owners is what never leaves the brain.
 
 WHAT IT NEVER DOES
     Add anyone to the brain. Make a public repo. Delete a file the team added.
@@ -834,7 +846,8 @@ def cmd_plan(root: Path, team: str | None, people: list[str] | None, paths: list
              title: str | None, block: list[str] | None, kind: str | None = None,
              description: str | None = None) -> int:
     if not team:
-        specs = sorted((root / SPECS).glob("*.yml")) if (root / SPECS).is_dir() else []
+        specs = sorted(f for f in (root / SPECS).glob("*.yml") if not f.name.startswith("_")) \
+            if (root / SPECS).is_dir() else []
         print("spokes so far: " + (", ".join(s.stem for s in specs) if specs else "none yet"))
         counts: dict[str, int] = {}
         for p in git(root, "ls-files", "-z").stdout.split("\0"):
@@ -1059,8 +1072,8 @@ def cmd_release(root: Path, team: str, push: bool) -> int:
     old = rec.get("files") or {}
     waiting = []
     for p, h in old.items():
-        if h.get("source") != "hub" or not (d / p).is_file():
-            continue
+        if h.get("source") != "hub" or not (d / p).is_file() or p == FOR_TEAM:
+            continue                                       # the owners' page always goes out as theirs
         now = file_sha(d / p)
         new = norm_sha(b.files[p][0]) if p in b.files else None
         if now != h.get("sha256") and now != new:
@@ -1074,7 +1087,7 @@ def cmd_release(root: Path, team: str, push: bool) -> int:
     if waiting:
         for p in waiting:
             print(f"waiting: {p} (changed by the team, not in the brain yet)")
-        print(f"The team's work comes first: {SELF} pull-back {team}, save it in the brain with /done, then release. "
+        print(f"The team's work comes first: {SELF} sync brings it in, then sends this. "
               "Nothing was released.")
         return 1
     removed = []
@@ -1104,27 +1117,22 @@ def cmd_release(root: Path, team: str, push: bool) -> int:
     return 0
 
 
-def cmd_pull_back(root: Path, team: str) -> int:
-    sp = load_spec(root, team)
-    d = ensure_clone(root, sp)
-    if not d:
-        return 1
-    why = catch_up(d)
-    if why:
-        print(why)
-        return 1
+def take_back(target: Path, d: Path, sp: dict) -> dict:
+    """The spoke's changes and new files, copied into `target` (a copy of the
+    brain). Returns what was copied, the conflicts left for a person, notes,
+    and requests for new spokes. Never overwrites a file the brain changed."""
     rec = read_record(d)
-    if not rec.get("files"):
-        print(f"{d} has no {RECORD}, so it is not a spoke this brain released.")
-        return 1
-    if len(hubtools.people(root)) > 1 and hubtools.current_branch(root) in ("main", "master", ""):
-        print(f"more than one person works in the brain, so this goes on your branch: {hubtools.on_branch(root)}")
+    team = sp["spoke"]
     handles = spoke_handles(sp)
-    copied, conflicts, notes = [], [], []
-    for p, h in sorted(rec["files"].items()):
+    copied, conflicts, notes, requests = [], [], [], []
+    for p, h in sorted((rec.get("files") or {}).items()):
         if h.get("source") != "hub":
             continue
-        sf, hf = d / p, root / p
+        sf, hf = d / p, target / p
+        if p == FOR_TEAM:
+            if sf.is_file() and file_sha(sf) != h.get("sha256"):
+                notes.append(f"{p}: changed in the spoke. It is the owners' page, so the change was not taken.")
+            continue
         if not sf.is_file():
             notes.append(f"{p}: deleted in the spoke. Left in the brain; delete it there if that is right.")
             continue
@@ -1138,10 +1146,10 @@ def cmd_pull_back(root: Path, team: str) -> int:
             continue
         shutil.copyfile(sf, hf)
         copied.append(p)
-    added = [p for p in tracked(d) if p not in rec["files"] and p != RECORD]
+    added = [p for p in tracked(d) if p not in (rec.get("files") or {}) and p != RECORD]
     for p in added:
         why = never_reason(p, sp, handles, releasing=False)
-        hf = root / p
+        hf = target / p
         if why and p.startswith("team/") and p.count("/") >= 2:
             conflicts.append(f"{p}: a team folder for '{p.split('/')[1]}', who is not in this team's plan. "
                              f"Add them to specs/spokes/{team}.yml (or set their handle), then pull back again.")
@@ -1154,6 +1162,30 @@ def cmd_pull_back(root: Path, team: str) -> int:
             hf.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(d / p, hf)
             copied.append(p + "  (new)")
+            parts = p.split("/")
+            if len(parts) >= 4 and parts[0] == "team" and parts[2] == "requests":
+                requests.append(f"{parts[1]} asks for a new spoke: {p}")
+    outside = [p for p in added if not any(covers(x, p) for x in sp["paths"])
+               and not p.startswith("team/") and not covers(goals_dir(team), p)]
+    return {"copied": copied, "conflicts": conflicts, "notes": notes, "requests": requests, "outside": outside}
+
+
+def cmd_pull_back(root: Path, team: str) -> int:
+    sp = load_spec(root, team)
+    d = ensure_clone(root, sp)
+    if not d:
+        return 1
+    why = catch_up(d)
+    if why:
+        print(why)
+        return 1
+    if not read_record(d).get("files"):
+        print(f"{d} has no {RECORD}, so it is not a spoke this brain released.")
+        return 1
+    if len(hubtools.people(root)) > 1 and hubtools.current_branch(root) in ("main", "master", ""):
+        print(f"more than one person works in the brain, so this goes on your branch: {hubtools.on_branch(root)}")
+    t = take_back(root, d, sp)
+    copied, conflicts, notes = t["copied"], t["conflicts"], t["notes"] + t["requests"]
     for p in copied:
         print(f"pulled back: {p}")
     for n in notes:
@@ -1163,13 +1195,106 @@ def cmd_pull_back(root: Path, team: str) -> int:
     if not copied and not conflicts:
         print(f"nothing new from the '{team}' spoke since the release")
     elif copied:
-        print("Read the changes in the brain (ask Claude to show you), then save them with /done. "
-              f"Then {SELF} release {team} --push, so the team has the brain's latest.")
-        new_outside = [p for p in added if not any(under(p, x if x.endswith('/') else x) for x in sp["paths"])
-                       and not p.startswith("team/")]
-        for p in new_outside:
+        print(f"Save it with /done. Then {SELF} release {team} --push, so the team has the brain's latest. "
+              f"Or let {SELF} sync do all of it.")
+        for p in t["outside"]:
             print(f"  note: {p} is outside the team's listed folders. Add its folder to the plan to keep it in the spoke.")
     return 1 if conflicts else 0
+
+
+def made_spokes(root: Path) -> list[dict]:
+    files = sorted((root / SPECS).glob("*.yml")) if (root / SPECS).is_dir() else []
+    out = []
+    for f in files:
+        if f.name.startswith("_") or not NAME.match(f.stem):
+            continue
+        sp = load_spec(root, f.stem)
+        if sp.get("github"):
+            out.append(sp)
+    return out
+
+
+def cmd_sync(root: Path, push: bool = True) -> int:
+    """Every spoke both ways, approved by nobody: work in, then the latest out."""
+    if re.search(r"(?m)^spoke:", (root / ".oac" / "manifest.yml").read_text(encoding="utf-8")
+                 if (root / ".oac" / "manifest.yml").is_file() else ""):
+        print("this is a spoke. Sync runs in the brain.")
+        return 1
+    spokes = made_spokes(root)
+    if not spokes:
+        print("no spokes made yet, so nothing to sync")
+        return 0
+    why = hubtools.gh_ready()
+    if why:
+        print(why)
+        return 1
+    ref, note = source_ref(root)
+    has_origin = git(root, "remote", "get-url", "origin").returncode == 0
+    tmp = Path(tempfile.mkdtemp(prefix="spoke-sync-"))
+    wt = tmp / "brain"
+    r = git(root, "worktree", "add", "-q", "--detach", str(wt), ref)
+    if r.returncode != 0:
+        print(f"could not open a copy of the brain's {ref}: {(r.stderr or r.stdout).strip()[:300]}")
+        shutil.rmtree(tmp, ignore_errors=True)
+        return 1
+    came, conflicts_total, took_from = 0, 0, []
+    try:
+        print(f"bringing in the spokes' work, into the brain's {ref}{note}")
+        for sp in spokes:
+            d = ensure_clone(root, sp)
+            if not d:
+                continue
+            why = catch_up(d)
+            if why:
+                print(f"  {sp['spoke']}: {why}")
+                continue
+            t = take_back(wt, d, sp)
+            came += len(t["copied"])
+            conflicts_total += len(t["conflicts"])
+            if t["copied"]:
+                took_from.append(sp["spoke"])
+            print(f"  {sp['spoke']}: {len(t['copied'])} in" + (f", {len(t['conflicts'])} left for a person" if t["conflicts"] else ""))
+            for line in t["requests"]:
+                print(f"    request: {line}")
+            for line in t["notes"]:
+                print(f"    note: {line}")
+            for c in t["conflicts"]:
+                print(f"    CONFLICT: {c}")
+        git(wt, "add", "-A")
+        if git(wt, "status", "--porcelain").stdout.strip():
+            c = git(wt, "commit", "-q", "-m", f"Sync: work from the {', '.join(took_from)} spoke{'s' if len(took_from) != 1 else ''}")
+            if c.returncode != 0:
+                print("the brain's own checks stopped the save, so nothing came in this time:")
+                print("  " + (c.stderr or c.stdout).strip()[:600])
+                return 1
+            sha = git(wt, "rev-parse", "HEAD").stdout.strip()
+            if has_origin and push:
+                pr = git(wt, "push", "-q", "origin", "HEAD:main")
+                if pr.returncode != 0:
+                    print("the brain moved on GitHub while syncing. Nothing is lost: run sync again.")
+                    return 1
+                print(f"  saved in the brain and shared ({sha[:8]}). /pull brings it into this folder.")
+            elif hubtools.current_branch(root) in ("main", "master") and not git(root, "status", "--porcelain").stdout.strip():
+                git(root, "merge", "-q", "--ff-only", sha)
+                print(f"  saved in the brain's main ({sha[:8]})")
+            else:
+                print(f"  saved as {sha[:8]}, not yet in main: merge it into main ({SELF} ran from a branch)")
+        else:
+            print("  nothing new came in")
+    finally:
+        git(root, "worktree", "remove", "--force", str(wt))
+        shutil.rmtree(tmp, ignore_errors=True)
+    print("sending the brain's latest to every spoke")
+    sent, held = 0, []
+    for sp in spokes:
+        rc = cmd_release(root, sp["spoke"], push)
+        if rc == 0:
+            sent += 1
+        else:
+            held.append(sp["spoke"])
+    print(f"sync: {came} file{'s' if came != 1 else ''} in, the latest out to {sent} of {len(spokes)} spoke"
+          f"{'s' if len(spokes) != 1 else ''}" + (f"; held back: {', '.join(held)}" if held else "") + ".")
+    return 1 if (held or conflicts_total) else 0
 
 
 def cmd_list(root: Path) -> int:
@@ -1220,6 +1345,8 @@ def main(argv: list[str] | None = None) -> int:
     r.add_argument("team")
     r.add_argument("--push", action="store_true", help="send it to GitHub too")
     sub.add_parser("list", help="every spoke, who is in it, where it lives")
+    sy = sub.add_parser("sync", help="every spoke both ways: work in, the latest out, no approvals")
+    sy.add_argument("--no-push", action="store_true", help="keep it on this laptop")
     a = ap.parse_args(argv)
     root = Path(a.root).resolve()
     if git(root, "rev-parse", "--git-dir").returncode != 0:
@@ -1237,6 +1364,8 @@ def main(argv: list[str] | None = None) -> int:
         return cmd_release(root, a.team, a.push)
     if a.cmd == "pull-back":
         return cmd_pull_back(root, a.team)
+    if a.cmd == "sync":
+        return cmd_sync(root, push=not a.no_push)
     return cmd_list(root)
 
 
