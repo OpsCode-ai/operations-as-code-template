@@ -20,6 +20,17 @@ WHAT IT DOES
             `set <id> <status>`. Status is one of the five. The statement is
             never edited here; it changes in the owner's plan and is sent
             again.
+    tree    The roll-up (ADR-140): each company goal, with the team goals
+            that serve it underneath and their status. `--write` keeps it in
+            context-core/strategic-identity/roll-up.md for the owners.
+
+TEAMS (ADR-140)
+    A team's goals live at context-core/strategic-identity/teams/<team>/goals.md,
+    one row per goal, each naming the company goal it serves as
+    [serves: <company goal id>]. Each level gives the word for its own goals:
+    in the brain, `due` and `set` cover the company's goals only; in a team's
+    spoke (its .oac/manifest.yml says `spoke: <team>`), only that team's. A
+    team's word reaches the brain by pull-back, never by an owner typing it.
 
 WHAT NEVER HAPPENS
     Nothing is committed here; /done saves goals.md with the rest. Nothing is
@@ -48,6 +59,9 @@ GOALS = "goals.md"
 # what this writes. The split does not ship in a business pack, so they live
 # here too; test_oac_goals.py keeps the three readers agreeing.
 GOAL_RE = re.compile(r"\[goal:\s*([^\]]+)\]")
+SERVES_RE = re.compile(r"\[serves:\s*([^\]]+)\]")
+TEAMS = "teams"
+ROLL_UP = "roll-up.md"
 STATUSES = ("not started", "on track", "at risk", "done", "dropped")
 CLOSED = ("done", "dropped")
 SEPARATOR_RE = re.compile(r"^\|[\s:|-]+\|$")
@@ -69,16 +83,42 @@ def fail(msg: str, code: int = 2) -> None:
     raise SystemExit(code)
 
 
-def goal_files(root: Path) -> list[Path]:
+def spoke_team(root: Path) -> str | None:
+    """The team this repo is a spoke of, from its manifest, or None in the brain."""
+    try:
+        text = (root / ".oac" / "manifest.yml").read_text(encoding="utf-8", errors="replace")
+    except OSError:
+        return None
+    m = re.search(r"(?m)^spoke:\s*['\"]?([a-z0-9][a-z0-9-]*)", text)
+    return m.group(1) if m else None
+
+
+def goal_files(root: Path, scope: str = "own") -> list[Path]:
+    """'own': the goals this repo gives the word for (the company's in the
+    brain, the team's in a spoke). 'all': those and every team's."""
     base = root / BASE
     if not base.is_dir():
         return []
-    return [f for f in [base / GOALS, *sorted(base.glob(f"*/{GOALS}"))] if f.is_file()]
+    company = [base / GOALS, *sorted(f for f in base.glob(f"*/{GOALS}") if f.parent.name != TEAMS)]
+    teams = sorted(base.glob(f"{TEAMS}/*/{GOALS}"))
+    team = spoke_team(root)
+    if scope == "all":
+        files = company + teams
+    elif team:
+        files = [base / TEAMS / team / GOALS]
+    else:
+        files = company
+    return [f for f in files if f.is_file()]
 
 
-def rows(root: Path) -> list[Row]:
+def team_of(root: Path, f: Path) -> str | None:
+    parts = f.relative_to(root / BASE).parts
+    return parts[1] if len(parts) == 3 and parts[0] == TEAMS else None
+
+
+def rows(root: Path, scope: str = "own") -> list[Row]:
     out: list[Row] = []
-    for f in goal_files(root):
+    for f in goal_files(root, scope):
         for n, ln in enumerate(f.read_text(encoding="utf-8", errors="replace").splitlines()):
             s = ln.strip()
             if not s.startswith("|") or SEPARATOR_RE.match(s):
@@ -94,7 +134,12 @@ def rows(root: Path) -> list[Row]:
 
 
 def statement(cell: str) -> str:
-    return GOAL_RE.sub("", cell).strip()
+    return re.sub(r"\s{2,}", " ", SERVES_RE.sub("", GOAL_RE.sub("", cell))).strip()
+
+
+def serves(cell: str) -> str | None:
+    m = SERVES_RE.search(cell)
+    return m.group(1).strip() if m else None
 
 
 def date_of(s: str) -> _dt.date | None:
@@ -146,6 +191,11 @@ def set_status(root: Path, gid: str, status: str, today: _dt.date) -> Row:
     all_rows = rows(root)
     found = [r for r in all_rows if r.gid == gid]
     if not found:
+        elsewhere = [r for r in rows(root, "all") if r.gid == gid]
+        if elsewhere:
+            t = team_of(root, elsewhere[0].file)
+            fail(f"'{gid}' is the {t} team's goal. Its word comes from the team, through pull-back."
+                 if t else f"'{gid}' is a company goal. The owners give its word, in the brain.")
         known = [r.gid for r in all_rows]
         fail(f"no goal called '{gid}' here." + (f" The goals here: {', '.join(known)}" if known
                                                 else " Nothing has been sent here yet."))
@@ -171,9 +221,10 @@ def _days(s: str, today: _dt.date) -> str:
 
 
 def print_show(root: Path, today: _dt.date, as_json: bool) -> None:
-    all_rows = rows(root)
+    all_rows = rows(root, "all")
     if as_json:
         print(json.dumps([{"id": r.gid, "statement": statement(r.cell), "status": r.status, "updated": r.updated,
+                           "team": team_of(root, r.file), "serves": serves(r.cell),
                            "file": r.file.relative_to(root).as_posix()} for r in all_rows], indent=2))
         return
     if not all_rows:
@@ -182,8 +233,83 @@ def print_show(root: Path, today: _dt.date, as_json: bool) -> None:
     print(f"  {len(all_rows)} goal{'s' if len(all_rows) != 1 else ''} here")
     w_id = max(len(r.gid) for r in all_rows) + 2
     for r in all_rows:
+        t = team_of(root, r.file)
         print(f"  {r.gid.ljust(w_id)}{r.status.ljust(13)}{r.updated.ljust(12)}{_days(r.updated, today).ljust(10)}"
-              f"{statement(r.cell)}")
+              f"{statement(r.cell)}{f'  ({t} team)' if t else ''}")
+
+
+def tree(root: Path) -> dict:
+    """Each company goal with the team goals that serve it."""
+    every = rows(root, "all")
+    company = [r for r in every if team_of(root, r.file) is None]
+    ids = {r.gid for r in company}
+    under: dict[str, list[Row]] = {}
+    loose: list[Row] = []
+    for r in every:
+        if team_of(root, r.file) is None:
+            continue
+        s = serves(r.cell)
+        if s and s in ids:
+            under.setdefault(s, []).append(r)
+        else:
+            loose.append(r)
+
+    def one(r: Row) -> dict:
+        return {"id": r.gid, "statement": statement(r.cell), "status": r.status, "updated": r.updated,
+                "team": team_of(root, r.file), "serves": serves(r.cell)}
+    return {"company": [dict(one(c), teams=[one(t) for t in under.get(c.gid, [])]) for c in company],
+            "loose": [one(r) for r in loose]}
+
+
+def tree_lines(t: dict) -> list[str]:
+    out = []
+    if not t["company"] and not t["loose"]:
+        return ["  no goals here yet."]
+    for c in t["company"]:
+        out.append(f"  {c['id']}  {c['status']}  {c['statement']}")
+        if not c["teams"]:
+            out.append("      no team goal serves this yet")
+        for g in c["teams"]:
+            out.append(f"      {g['team']}: {g['id']}  {g['status']}  {g['statement']}")
+    if t["loose"]:
+        out.append("  team goals that serve no company goal here:")
+        for g in t["loose"]:
+            why = f"serves {g['serves']}, which is not a company goal here" if g["serves"] else "names no company goal"
+            out.append(f"      {g['team']}: {g['id']}  {g['status']}  {g['statement']}  ({why})")
+    return out
+
+
+def write_roll_up(root: Path, t: dict, today: _dt.date) -> Path:
+    """The roll-up as a page in the brain. It stays in the brain: a spoke
+    never gets the vision folder unless an owner names the file (ADR-140)."""
+    files = [f.relative_to(root).as_posix() for f in goal_files(root, "all")]
+    lines = ["---", 'title: "Goals: the company, and the teams under it"', "type: report", "audience: internal",
+             "status: active", "generated: true", f"derived_from: [{', '.join(json.dumps(f) for f in files)}]",
+             f"updated: {today.isoformat()}", "topics: [operations]", "tags: [goals, roll-up, teams]", "---", "",
+             "# Goals: the company, and the teams under it", "",
+             "Written by `oac-goals.py tree --write` from the goals files above. Each team's word arrives by",
+             "pull-back; the company's is the owners'. Rebuilt every time, so never edit it by hand.", ""]
+    for c in t["company"]:
+        lines.append(f"## {c['statement']}")
+        lines.append("")
+        lines.append(f"`{c['id']}`: **{c['status']}**, {c['updated']}")
+        lines.append("")
+        if c["teams"]:
+            lines += ["| Team | Goal | Status | Updated |", "|---|---|---|---|"]
+            lines += [f"| {g['team']} | {g['statement']} | {g['status']} | {g['updated']} |" for g in c["teams"]]
+        else:
+            lines.append("No team goal serves this yet.")
+        lines.append("")
+    if t["loose"]:
+        lines += ["## Team goals that serve no company goal here", "",
+                  "| Team | Goal | Serves | Status |", "|---|---|---|---|"]
+        lines += [f"| {g['team']} | {g['statement']} | {g['serves'] or 'nothing named'} | {g['status']} |"
+                  for g in t["loose"]]
+        lines.append("")
+    out = root / BASE / ROLL_UP
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text("\n".join(lines), encoding="utf-8")
+    return out
 
 
 def print_due(items: list[dict], days: int, as_json: bool, quiet: bool) -> None:
@@ -224,6 +350,9 @@ def main(argv: list[str] | None = None) -> int:
     st = sub.add_parser("set", help="one goal's status, dated today")
     st.add_argument("goal_id")
     st.add_argument("status")
+    tr = sub.add_parser("tree", help="each company goal with the team goals under it")
+    tr.add_argument("--json", action="store_true")
+    tr.add_argument("--write", action="store_true", help="keep it in context-core/strategic-identity/roll-up.md")
     ns = ap.parse_args(argv)
 
     root = Path(ns.root).resolve()
@@ -232,6 +361,17 @@ def main(argv: list[str] | None = None) -> int:
         print_show(root, today, ns.json)
     elif ns.cmd == "due":
         print_due(due(root, ns.days, today), ns.days, ns.json, ns.quiet)
+    elif ns.cmd == "tree":
+        t = tree(root)
+        if ns.json:
+            print(json.dumps(t, indent=2))
+        else:
+            print("\n".join(tree_lines(t)))
+        if ns.write:
+            if spoke_team(root):
+                fail("the roll-up is kept in the brain, not in a team's spoke.")
+            out = write_roll_up(root, t, today)
+            print(f"  written to {out.relative_to(root).as_posix()}; /done saves it.")
     else:
         r = set_status(root, ns.goal_id, ns.status, today)
         print(f"  {r.gid}: {r.status}, {r.updated}. Written to {r.file.relative_to(root).as_posix()}; /done saves it.")

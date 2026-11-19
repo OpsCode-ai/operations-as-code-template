@@ -36,6 +36,15 @@ October 2026: no AI-DLC in the install).
   due` lists it and the session asks for one word: not started, on track, at
   risk, done or dropped. Only the status and the date ever change here; the
   owner's plan reads those two back and nothing else.
+- **A new department, person or AI role becomes a spoke.** When someone says
+  the business needs a new department or team, someone is joining, or an AI
+  should do a job ('we need a marketing department', 'make us an AI
+  marketer'), offer `/spoke`. It plans the spoke, shows what it would see, and
+  makes it on the owners' yes. This repo stays with the owners; everyone else
+  works in a spoke.
+- **What eats people's time is asked, not typed up.** `/problems` asks the
+  worksheet's questions one at a time and saves the answers in the person's
+  own folder.
 - **Everything made for the business reads `vision.md` first.** Before any
   report, dashboard, page or email, read `vision.md`, `standards/brand.md`,
   `context-core/voice/` and the page for its kind under `standards/outputs/`,

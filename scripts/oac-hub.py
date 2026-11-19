@@ -7,9 +7,9 @@ WHY THIS EXISTS
     is the hub, made on GitHub before the day. Each founder clones it, works on
     their own branch, and /done merges. Each laptop's files come in through the
     chaos step into inbox/<person>/ on that person's branch, so nothing
-    collides, and file dates are kept. Spokes for staff come later, from the
-    builder OpsCode's own spoke uses. The Melbourne plan, O1 item 5; ADR-122's
-    install order, step 3 (chaos) and step 5 (GitHub).
+    collides, and file dates are kept. The hub is for the owners; staff work
+    in a spoke per team, made by scripts/oac-spoke.py (ADR-140). The Melbourne
+    plan, O1 item 5; ADR-122's install order, step 3 (chaos) and step 5 (GitHub).
 
 VERBS
     create [--owner ORG]   Make the private repo on GitHub from this folder and
