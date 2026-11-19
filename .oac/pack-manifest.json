@@ -2,7 +2,7 @@
   "schema_version": 1,
   "pack": "operations-as-code-pack",
   "plane": "business",
-  "content_id": "6c1773a2e247f2388d03e44aaa8b0bc2bb9239916dd60066561f5d54a3b86f58",
+  "content_id": "c6329ca000dfc730cee25f00d84b5c45ba82cbec513bf29cf52efe7218b539e1",
   "upgrade": "python3 scripts/oac-upgrade.py --from <unzipped newer pack> [--apply]",
   "skip": [],
   "files": {
@@ -958,7 +958,7 @@
       "sha256": "dbb2e9f65c45dc1d1aa9d82db1c884e96ec142e3a2e371fe2da6e047f75b7f27"
     },
     "standards/outputs/dashboard.md": {
-      "sha256": "06c6d12129e4a04a45345a820d4bce35ec2f0ed1edd41f12a0b489d6665e5854"
+      "sha256": "5532ef5d06736d7a395af4cddf7c589628e01b91bdd59b6e0d4121405d814d00"
     },
     "standards/outputs/email.md": {
       "sha256": "33e957b73d78ea7529fed52b0682807d095f50b46be979f06e4c19b4085ed665"

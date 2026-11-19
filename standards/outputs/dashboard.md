@@ -9,9 +9,14 @@ audience: internal
 Reads first: `vision.md`, `standards/brand.md`, then `context-core/voice/`
 for every word on it.
 
-- One page. The answer at the top: how the business is going, in one line.
-  Then what it runs on, what still runs by hand, where each goal stands, and
-  what moved this week.
+- An app, not a document. A menu down the left, like any software the team
+  uses, each item with an icon from the business's one icon set
+  (`scripts/lib/library/`). On a phone the menu folds into a Menu button at
+  the top, and the page still reads at phone width.
+- The answer at the top: how the business is going, in one line. Then the
+  company's goals on a timeline, each with the spoke goals that serve it
+  (`python3 scripts/oac-goals.py tree`), then what it runs on, what still runs
+  by hand, and what moved this week.
 - The business's ink, paper, one accent and typeface. Nothing else. Plain
   black on white if none are chosen.
 - Numbers in small tables or on their own line, each saying where it came
