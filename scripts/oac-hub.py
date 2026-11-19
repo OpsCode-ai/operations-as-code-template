@@ -152,6 +152,20 @@ def cmd_create(root: Path, owner: str | None) -> int:
         return 1
     name = root.resolve().name
     full = f"{owner}/{name}" if owner else name
+    if owner and run("gh", "api", f"users/{owner}", "--jq", ".type").stdout.strip() == "Organization":
+        # A new organisation lets every member read every repo. With staff in
+        # it, that opens the brain to all of them (ADR-140): refuse, and say how.
+        b = run("gh", "api", f"orgs/{owner}", "--jq", ".default_repository_permission")
+        base = b.stdout.strip() if b.returncode == 0 else ""
+        fix = (f"Set it to No permission: github.com/organizations/{owner}/settings/member_privileges, "
+               "Base permissions, No permission.")
+        if base and base != "none":
+            print(f"not made: in {owner}, every member can {base} every repo, so the brain would be open to all "
+                  f"of them. {fix}")
+            return 1
+        if not base:
+            print(f"WARNING: I can't read {owner}'s base permission (only its owners can). If members can read "
+                  f"every repo, the brain is open to all of them. An owner of {owner} checks it. {fix}")
     r = run("gh", "repo", "create", full, "--private", "--source", str(root), "--remote", "origin", "--push")
     if r.returncode != 0:
         print(f"GitHub refused to make {full}:\n  {(r.stderr or r.stdout).strip()[:400]}")

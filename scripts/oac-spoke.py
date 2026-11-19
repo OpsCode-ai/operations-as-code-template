@@ -84,6 +84,20 @@ VERBS
                         to every spoke. The pack's /start runs it in the
                         brain. The gate still decides what leaves.
     list                Every spoke, who is in it, where it lives.
+    people [--invite email ...] [--write]
+                        Who is in the business's GitHub organisation: each
+                        person's name and username, and who has an invitation
+                        waiting. Nobody collects usernames: each person
+                        accepts the invitation and sets their own name.
+                        --invite asks GitHub to invite a work email to the
+                        organisation; --write keeps the list in the brain at
+                        systems/github-people.md, for planning spokes.
+
+THE ORGANISATION'S BASE PERMISSION
+    A new GitHub organisation lets every member read every repo in it. With
+    staff in the organisation, that would open the brain to all of them. So
+    create refuses to make a spoke in an organisation whose base permission
+    is anything but 'No permission', and people says so first.
 
 WHO DECIDES (ADR-140 rules 21 and 22)
     Spokes are made from the brain, and only the owners and the admins they
@@ -957,6 +971,12 @@ def cmd_create(root: Path, team: str, owner: str | None, name: str | None) -> in
     if owner is None:                                      # the brain is not on GitHub: your own account
         owner = subprocess.run(["gh", "api", "user", "-q", ".login"], capture_output=True, text=True).stdout.strip() or None
     full = f"{owner}/{repo}" if owner else repo
+    refuse, problem = base_permission_problem(owner) if owner else (False, None)
+    if refuse:
+        print(f"not made: {problem}")
+        return 1
+    if problem:
+        print(f"WARNING: {problem}")
     sp["github"] = full                                    # so the spoke's README names the right repo
     resume = (d / ".git").exists() and (d / RECORD).is_file() and "origin" not in git(d, "remote").stdout.split()
     if d.exists() and any(d.iterdir()) and not resume:
@@ -994,6 +1014,121 @@ def cmd_create(root: Path, team: str, owner: str | None, name: str | None) -> in
     print(f"  its folder on this laptop: {d}")
     print(f"  wrote github: {nwo} into specs/spokes/{team}.yml. Save it with /done.")
     print(f"next: {SELF} invite {team}   (everyone in the plan with a GitHub username)")
+    return 0
+
+
+PEOPLE_FILE = Path("systems") / "github-people.md"
+
+
+def gh_json(*args: str):
+    r = subprocess.run(["gh", "api", *args], capture_output=True, text=True)
+    if r.returncode != 0:
+        return None
+    try:
+        return json.loads(r.stdout) if r.stdout.strip() else None
+    except ValueError:
+        return None
+
+
+def org_base_permission(org: str) -> str | None:
+    """'none', 'read', 'write' or 'admin'; None when it can't be read (not an
+    organisation, or not an owner of it)."""
+    d = gh_json(f"orgs/{org}")
+    return d.get("default_repository_permission") if isinstance(d, dict) else None
+
+
+def is_org(owner: str) -> bool:
+    d = gh_json(f"users/{owner}")
+    return isinstance(d, dict) and d.get("type") == "Organization"
+
+
+def base_permission_problem(org: str) -> tuple[bool, str | None]:
+    """(refuse, why). Refuse when every member could read every repo; only a
+    warning when the setting can't be read (the person is not an owner of
+    the organisation), so a room is never stuck on a setting it can't see."""
+    if not is_org(org):
+        return False, None
+    base = org_base_permission(org)
+    fix = (f"Set it to No permission: github.com/organizations/{org}/settings/member_privileges, "
+           "Base permissions, No permission.")
+    if base is None:
+        return False, (f"I can't read {org}'s base permission (only its owners can). If members can read "
+                       f"every repo, the brain and its spokes keep nothing private. An owner of {org} checks it. {fix}")
+    if base != "none":
+        return True, (f"In {org}, every member can {base} every repo (base permission '{base}'), so the brain "
+                      f"and every spoke would be open to all of them. {fix}")
+    return False, None
+
+
+def org_people(org: str) -> tuple[list[dict], list[str]]:
+    members = gh_json(f"orgs/{org}/members?per_page=100") or []
+    out = []
+    for m in members:
+        login = m.get("login") if isinstance(m, dict) else None
+        if not login:
+            continue
+        u = gh_json(f"users/{login}") or {}
+        out.append({"login": login, "name": (u.get("name") or "").strip()})
+    inv = gh_json(f"orgs/{org}/invitations?per_page=100") or []
+    waiting = [(i.get("email") or i.get("login") or "") for i in inv if isinstance(i, dict)]
+    return sorted(out, key=lambda x: (x["name"] or x["login"]).lower()), [w for w in waiting if w]
+
+
+def cmd_people(root: Path, org: str | None, invite: list[str], write: bool) -> int:
+    why = hubtools.gh_ready()
+    if why:
+        print(why)
+        return 1
+    org = org or (hub_nwo(root) or "").split("/")[0]
+    if not org or not is_org(org):
+        print("the brain is not in a GitHub organisation, so there is nobody to list. Name one with --org.")
+        return 1
+    _, problem = base_permission_problem(org)
+    if problem:
+        print(f"WARNING: {problem}")
+    for email in invite:
+        if "@" not in email:
+            print(f"  '{email}' is not an email address, skipped")
+            continue
+        r = subprocess.run(["gh", "api", "-X", "POST", f"orgs/{org}/invitations", "-f", f"email={email}",
+                            "-f", "role=direct_member"], capture_output=True, text=True)
+        print(f"  invited {email} to {org}" if r.returncode == 0
+              else f"  GitHub refused the invitation for {email}: {(r.stderr or r.stdout).strip()[:200]}")
+    people, waiting = org_people(org)
+    in_spoke: dict[str, list[str]] = {}
+    for sp in [load_spec(root, f.stem) for f in sorted((root / SPECS).glob("*.yml"))
+               if not f.name.startswith("_") and NAME.match(f.stem)] if (root / SPECS).is_dir() else []:
+        for person in sp["people"]:
+            if person.get("github"):
+                in_spoke.setdefault(person["github"].lower(), []).append(sp["spoke"])
+    print(f"{org}: {len(people)} {'person' if len(people) == 1 else 'people'}")
+    for x in people:
+        spokes = ", ".join(in_spoke.get(x["login"].lower(), [])) or "no spoke yet"
+        print(f"  {x['name'] or '(no name on GitHub yet)'}  {x['login']}  {spokes}")
+    if waiting:
+        print(f"invited, not yet accepted: {', '.join(waiting)}")
+    nameless = [x["login"] for x in people if not x["name"]]
+    if nameless:
+        print(f"no name on their GitHub profile yet: {', '.join(nameless)}. Step 1's prompt sets it.")
+    if write:
+        f = root / PEOPLE_FILE
+        f.parent.mkdir(parents=True, exist_ok=True)
+        today = _dt.date.today().isoformat()
+        rows = "\n".join(f"| {x['name'] or '(no name yet)'} | {x['login']} | "
+                         f"{', '.join(in_spoke.get(x['login'].lower(), [])) or '-'} |" for x in people)
+        f.write_text(
+            "---\n"
+            f'title: "Who is in {org} on GitHub"\n'
+            "type: report\naudience: internal\nstatus: active\ngenerated: true\n"
+            f'sources: ["GitHub: the {org} organisation\'s members and invitations, read {today}"]\n'
+            f"updated: {today}\ntopics: [operations]\ntags: [github, people, spokes]\n---\n\n"
+            f"# Who is in {org} on GitHub\n\n"
+            f"Written by `oac-spoke.py people --write` from GitHub on {today}. Each person joined and named\n"
+            "themselves; nobody typed this up. Use it to plan the spokes.\n\n"
+            "| Name | GitHub username | Spokes |\n|---|---|---|\n" + rows + "\n"
+            + (f"\nInvited, not yet accepted: {', '.join(waiting)}.\n" if waiting else ""),
+            encoding="utf-8")
+        print(f"wrote {PEOPLE_FILE.as_posix()}. Save it with /done.")
     return 0
 
 
@@ -1345,6 +1480,10 @@ def main(argv: list[str] | None = None) -> int:
     r.add_argument("team")
     r.add_argument("--push", action="store_true", help="send it to GitHub too")
     sub.add_parser("list", help="every spoke, who is in it, where it lives")
+    pe = sub.add_parser("people", help="who is in the business's GitHub organisation")
+    pe.add_argument("--org", help="the organisation (default: the brain's own)")
+    pe.add_argument("--invite", nargs="*", default=[], help="work emails to invite to the organisation")
+    pe.add_argument("--write", action="store_true", help="keep the list in the brain at systems/github-people.md")
     sy = sub.add_parser("sync", help="every spoke both ways: work in, the latest out, no approvals")
     sy.add_argument("--no-push", action="store_true", help="keep it on this laptop")
     a = ap.parse_args(argv)
@@ -1366,6 +1505,8 @@ def main(argv: list[str] | None = None) -> int:
         return cmd_pull_back(root, a.team)
     if a.cmd == "sync":
         return cmd_sync(root, push=not a.no_push)
+    if a.cmd == "people":
+        return cmd_people(root, a.org, a.invite, a.write)
     return cmd_list(root)
 
 

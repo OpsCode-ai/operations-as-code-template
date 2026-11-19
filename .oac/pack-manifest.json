@@ -2,7 +2,7 @@
   "schema_version": 1,
   "pack": "operations-as-code-pack",
   "plane": "business",
-  "content_id": "90c07b6c569fde223f35ce21e57d73739794b7a926ec1640991cb4ed3f28d925",
+  "content_id": "6c1773a2e247f2388d03e44aaa8b0bc2bb9239916dd60066561f5d54a3b86f58",
   "upgrade": "python3 scripts/oac-upgrade.py --from <unzipped newer pack> [--apply]",
   "skip": [],
   "files": {
@@ -901,7 +901,7 @@
       "sha256": "c8c7e1626110fa935eb299d29dad58e6b04f7214291776bf20c3559d03be9003"
     },
     "scripts/oac-hub.py": {
-      "sha256": "706d6e24aadc540b1c8394ccfb1e611ca240c7cb5c905202a4ae852c8cf8597b"
+      "sha256": "b6a2ba526b6a92d0a54aa07b5ce9e6d0e37fc037e69f45a75549e26ef6601ab9"
     },
     "scripts/oac-session-brief.py": {
       "sha256": "3426d7ce5e39139f4609aa07412948c1adaef26143145f2fe507fb92b3a39106"
@@ -910,7 +910,7 @@
       "sha256": "a67d45a84abf2104ae83ee3b22500b8edd68a11c9e135cf34779338b856f5d7b"
     },
     "scripts/oac-spoke.py": {
-      "sha256": "3b9fa80094ac4eb9c57673633381f442219760575fd2387eb1e8a443cd0131cb"
+      "sha256": "618523112fff1d127a00a640f13f8fd46f3808b25cd1c77d39568765dd587346"
     },
     "scripts/oac-statusline.sh": {
       "sha256": "5b098c2f8caa7e4252ca8e534944b5dd9a142bb81f9684e28c8c457ee936cfa5"
