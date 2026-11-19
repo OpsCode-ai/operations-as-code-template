@@ -2,7 +2,7 @@
   "schema_version": 1,
   "pack": "operations-as-code-pack",
   "plane": "business",
-  "content_id": "c6329ca000dfc730cee25f00d84b5c45ba82cbec513bf29cf52efe7218b539e1",
+  "content_id": "7e56f1cea407dc774095876f69ac4659c29a93c1beb12cfe652f624cbac55898",
   "upgrade": "python3 scripts/oac-upgrade.py --from <unzipped newer pack> [--apply]",
   "skip": [],
   "files": {
@@ -163,7 +163,7 @@
       "sha256": "56f4c43df76d14247e72cd6250bb9bda4b1dc9a0a877482b214e21ba32c484e5"
     },
     "scripts/install-oac-statusline.py": {
-      "sha256": "7e49047b2699f1d371a9e75b012221e96722e5598f35555161f0b967e71a598b"
+      "sha256": "78b6a487a6ae1f3fa0db3061b515fe002d23f292bea8359a5b4a0274638a28de"
     },
     "scripts/install-shortcuts.sh": {
       "sha256": "182405b0a28762d3bd2cc6b65c885c89c23bba88ecc47a97f440a73c6ce3d78a"
@@ -913,7 +913,7 @@
       "sha256": "618523112fff1d127a00a640f13f8fd46f3808b25cd1c77d39568765dd587346"
     },
     "scripts/oac-statusline.sh": {
-      "sha256": "5b098c2f8caa7e4252ca8e534944b5dd9a142bb81f9684e28c8c457ee936cfa5"
+      "sha256": "c11379bb80fd03766b9f9038b22d8d12300e375c7df1f7bfdd9f4abbc462e323"
     },
     "scripts/oac-sync-check.py": {
       "sha256": "240490294dbdf44f8fb5321cb0b7ed6d64de60e522b0c8c982d2051cd270cc59"
